@@ -7,7 +7,7 @@ from datetime import datetime as dt
 
 import orca
 from urbansim.models import RegressionModel
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from urbansim.utils import yamlio
 
 from .shared import TemplateStep
@@ -16,7 +16,7 @@ import modelmanager as mm
 import pickle
 
 
-TEMPLATE_VERSION = '0.1dev1'
+TEMPLATE_VERSION = '0.1dev2'
 
 
 class OLSRegressionStep(TemplateStep):
@@ -336,9 +336,24 @@ class RandomForestRegressionStep(OLSRegressionStep):
 		
 		mm.add_step(d)
 		
-		
-		
+class GradientBoostingRegressionStep(RandomForestRegressionStep):
+
+
+	def fit(self):
 	
+		self.model = GradientBoostingRegressor()
+		
+		output_column = self._get_out_column()
+		data = self._get_data()
+		
+		y_train = np.array(data[output_column])
+		data.drop(output_column, axis=1, inplace=True)
+		X_train = np.array(data)
+		
+		resutls = self.model.fit(X_train, y_train.ravel())
+		
+		self.name = self._generate_name()
+		
 	
             
         

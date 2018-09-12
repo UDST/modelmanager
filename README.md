@@ -19,6 +19,14 @@ cd urbansim_templates
 python setup.py develop
 ```
 
+## adding virtual environment kernel in Jupiter Notebook
+To make sure that you are using the virtual env template-venv in Jupiter notebook you may need to do the following: once template-venv is activated, run
+```
+pip install ipykernel
+ipython kernel install --user --name=urbansim_template_kernel
+```
+Then when starting Jupiter notebook, select urbansim_template_kernel as your kernel.
+
 
 ## Bug reports
 
@@ -104,3 +112,5 @@ ModelManager works directly with the current versions of [UrbanSim](https://gith
 - Each new template class needs to be imported by name into `modelmanager.py`, for now. See discussion [here](https://github.com/UDST/urbansim_templates/blob/master/urbansim_templates/modelmanager.py#L105-L114).
 
 - We don't have design patterns yet for templates whose final output is to _generate_ DataFrames or Series, rather than modifying existing ones, but we're working on it.
+
+

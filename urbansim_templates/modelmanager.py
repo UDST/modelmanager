@@ -6,7 +6,7 @@ from collections import OrderedDict
 import orca
 from urbansim.utils import yamlio
 
-from .models import OLSRegressionStep
+from .models.regression import OLSRegressionStep
 from .models import BinaryLogitStep
 from .models import LargeMultinomialLogitStep
 from .models import SmallMultinomialLogitStep

@@ -19,7 +19,7 @@ cd urbansim_templates
 python setup.py develop
 ```
 
-## adding virtual environment kernel in Jupiter Notebook
+## Adding virtual environment kernel in Jupiter Notebook
 To make sure that you are using the virtual env template-venv in Jupiter notebook you may need to do the following: once template-venv is activated, run
 ```
 pip install ipykernel

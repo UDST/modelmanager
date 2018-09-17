@@ -4,15 +4,10 @@ import os
 from collections import OrderedDict
 
 import orca
+from urbansim_templates.settings import pipe_steps
 from urbansim.utils import yamlio
 
-from .models.regression import OLSRegressionStep
-from .models import BinaryLogitStep
-from .models import LargeMultinomialLogitStep
-from .models import SmallMultinomialLogitStep
-
 from .utils import version_greater_or_equal
-
 
 MODELMANAGER_VERSION = '0.1.dev10'
 
@@ -34,6 +29,7 @@ def initialize(path='configs'):
         directory
     
     """
+
     if not os.path.exists(path):
         print("Path not found: {}".format(os.path.join(os.getcwd(), path)))
         # TO DO - automatically create directory if run again after warning?
@@ -122,7 +118,10 @@ def add_step(d, save_to_disk=True):
     
     # Create a callable that builds and runs the model step
     def run_step():
-        return globals()[d['type']].from_dict(d).run()
+        return pipe_steps[d['type']].from_dict(d).run()
+		
+	# if the model configuration requires pickling
+	
         
     # Register it with Orca
     orca.add_step(d['name'], run_step)
@@ -166,7 +165,8 @@ def get_step(name):
     RegressionStep or other
     
     """
-    return globals()[_STEPS[name]['type']].from_dict(_STEPS[name])    
+   
+    return pipe_steps[_STEPS[name]['type']].from_dict(_STEPS[name])    
 
 
 def remove_step(name):

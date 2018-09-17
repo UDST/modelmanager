@@ -10,8 +10,8 @@ from urbansim.models import RegressionModel
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from urbansim.utils import yamlio
 
-from .shared import TemplateStep
-import modelmanager as mm
+from urbansim_templates.models.shared import TemplateStep
+from .. import modelmanager as mm
 
 import pickle
 
@@ -20,6 +20,7 @@ TEMPLATE_VERSION = '0.1dev2'
 
 
 class OLSRegressionStep(TemplateStep):
+	
     """
     A class for building OLS (ordinary least squares) regression model steps. This extends 
     TemplateStep, where some common functionality is defined. Estimation and simulation
@@ -287,6 +288,9 @@ class RandomForestRegressionStep(OLSRegressionStep):
             'model': self.model
         })
 		
+		# model config is a filepath to a pickled file
+		d['model'] = "%s.pkl" %d['name']
+		
 		return d
 		
 	def run(self):
@@ -327,7 +331,7 @@ class RandomForestRegressionStep(OLSRegressionStep):
                 
 		"""
 		d = self.to_dict()
-		d['model'] = os.path.join(mm._DISK_STORE, "%s.pkl" %d['name'])
+		d['model'] = os.path.join(mm.get_config_dir(), "%s.pkl" %d['name'])
 		
 		# dumping model in a pickled file
 		model_config_pkl = open(d['model'], 'wb')

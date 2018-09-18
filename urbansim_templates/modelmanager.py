@@ -4,17 +4,13 @@ import os
 import copy
 from collections import OrderedDict
 
+
 import orca
 from urbansim.utils import yamlio
 
-from .models import OLSRegressionStep
-from .models import BinaryLogitStep
-from .models import LargeMultinomialLogitStep
-from .models import SmallMultinomialLogitStep
-
 from .__init__ import __version__
 from .utils import version_greater_or_equal
-
+from .settings import pipe
 
 _steps = {}  # master dictionary of steps in memory
 _disk_store = None  # path to saved steps on disk
@@ -92,7 +88,7 @@ def build_step(d):
             object = load_supplemental_object(d['name'], **item)
             d['supplemental_objects'][i] = object
     
-    return globals()[d['template']].from_dict(d)
+    return pipe[d['template']].from_dict(d)
     
 
 def load_supplemental_object(step_name, name, content_type, required=True):

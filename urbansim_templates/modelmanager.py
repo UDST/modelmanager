@@ -10,11 +10,23 @@ from urbansim.utils import yamlio
 
 from .__init__ import __version__
 from .utils import version_greater_or_equal
-from .settings import pipe
 
 _steps = {}  # master dictionary of steps in memory
 _disk_store = None  # path to saved steps on disk
 
+
+global pipe
+pipe = {}
+
+def register_modules(d):
+	"""
+	Take a dictionary with modules/class loaded so far
+	and store them into a global variable pipe
+	that can be shared across the whole packages"
+	
+	"""
+	for key in d.keys():
+		pipe[key] = d[key]
 
 def initialize(path='configs'):
     """

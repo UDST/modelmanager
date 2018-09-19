@@ -19,7 +19,7 @@ def test_binary_logit():
     For now this just tests that the code runs.
     
     """
-    modelmanager.register_modules(globals())
+    modelmanager.register_templates(globals())
     modelmanager.initialize()
 
     m = BinaryLogitStep()

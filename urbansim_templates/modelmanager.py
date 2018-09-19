@@ -15,10 +15,10 @@ _steps = {}  # master dictionary of steps in memory
 _disk_store = None  # path to saved steps on disk
 
 
-global pipe
-pipe = {}
+global _templates
+_templates = {}
 
-def register_modules(d):
+def register_templates(d):
 	"""
 	Take a dictionary with modules/class loaded so far
 	and store them into a global variable pipe
@@ -26,7 +26,8 @@ def register_modules(d):
 	
 	"""
 	for key in d.keys():
-		pipe[key] = d[key]
+		_templates[key] = d[key]
+		
 
 def initialize(path='configs'):
     """
@@ -100,7 +101,7 @@ def build_step(d):
             object = load_supplemental_object(d['name'], **item)
             d['supplemental_objects'][i] = object
     
-    return pipe[d['template']].from_dict(d)
+    return _templates[d['template']].from_dict(d)
     
 
 def load_supplemental_object(step_name, name, content_type, required=True):
